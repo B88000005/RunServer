@@ -149,7 +149,7 @@ int compare(char *infile, char *outfile, char *userfile)
           std::string p = ouf.readWord();
           strAnswer = p;
           if (j != p)
-            quitf(_wa, "%d%s words differ - expected: '%s', found: '%s'", n, ending(n).c_str(), j.c_str(), p.c_str());
+            quitf(_wa, "%d words differ - expected: '%s', found: '%s'", n, j.c_str(), p.c_str());
         }
 
         if (n == 1 && strAnswer.length() <= 128)
@@ -159,8 +159,7 @@ int compare(char *infile, char *outfile, char *userfile)
     }else{
         int status=0;
         waitpid(pid, &status, 0);
-        printf("============= %d\n",status);
-        return status;
+        return WEXITSTATUS(status);
     }
 }
 
