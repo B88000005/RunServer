@@ -132,6 +132,7 @@ int compare(char *infile, char *outfile, char *userfile)
 {
     int pid = fork();
     if (pid == 0){
+        freopen("/dev/null", "w", stdout);
         setName("compare sequences of tokens");
         // <input-file> <output-file> <answer-file>
         char * _argv[]={ NULL, infile, userfile, outfile };
@@ -158,6 +159,7 @@ int compare(char *infile, char *outfile, char *userfile)
     }else{
         int status=0;
         waitpid(pid, &status, 0);
+        printf("============= %d\n",status);
         return status;
     }
 }
