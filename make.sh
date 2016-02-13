@@ -12,7 +12,7 @@ mv runner compiler $GOPATH/bin
 
 echo Building similarity test
 cd sim/sim_2_89
-make binaries 
+make binaries
 chmod +x sim_c sim_java sim_text ../sim.sh
 cp sim_c sim_java sim_text ../sim.sh $GOPATH/bin
 make fresh
