@@ -89,7 +89,7 @@ void write_log(const char *fmt, ...){
 
 //执行命令
 int execute_cmd(const char * fmt, ...){
-    char cmd[BUFFER_SIZE];
+    char cmd[RUNNER_BUFFER_SIZE];
 
     int ret = 0;
     va_list ap;
@@ -103,7 +103,7 @@ int execute_cmd(const char * fmt, ...){
 
 const int call_array_size=512;
 int call_counter[call_array_size]= {0};
-static char LANG_NAME[BUFFER_SIZE];
+static char LANG_NAME[RUNNER_BUFFER_SIZE];
 
 //初始化系统调用限制表
 void init_syscalls_limits(int lang){
@@ -155,14 +155,14 @@ int compare(const char *infile, const char *outfile, const char *userfile)
 //获取进程状态
 int get_proc_status(int pid, const char * mark){
     FILE * pf;
-    char fn[BUFFER_SIZE], buf[BUFFER_SIZE];
+    char fn[RUNNER_BUFFER_SIZE], buf[RUNNER_BUFFER_SIZE];
     int ret = 0;
 
     sprintf(fn, "/proc/%d/status", pid);
 
     pf = fopen(fn, "r");
     int m = strlen(mark);
-    while (pf && fgets(buf, BUFFER_SIZE - 1, pf)){
+    while (pf && fgets(buf, RUNNER_BUFFER_SIZE - 1, pf)){
         buf[strlen(buf) - 1] = 0;
         if (strncmp(buf, mark, m) == 0){
             sscanf(buf + m + 1, "%d", &ret);
@@ -410,7 +410,7 @@ void watch_solution(
 
         if (!record_call&&call_counter[reg.REG_SYSCALL] == 0) {   //do not limit JVM syscall for using different JVM
             judge_flag = JudgeRE;
-            char error[BUFFER_SIZE];
+            char error[RUNNER_BUFFER_SIZE];
             sprintf(error,"[ERROR] A Not allowed system call! callid:%llu\n",reg.REG_SYSCALL);
             write_log(error);
             print_runtimeerror(error);
@@ -441,7 +441,7 @@ int prepare_files(char * filename, char * infile, char * outfile, char * userfil
     }
 
     // 得到 .in 文件前缀
-    char  fname[BUFFER_SIZE];
+    char  fname[RUNNER_BUFFER_SIZE];
     strncpy(fname, filename,  l - 3);
     fname[l-3] = 0;
 
@@ -517,8 +517,8 @@ int main(int argc, char** argv){
 
 
     // begin run
-    char fullpath[BUFFER_SIZE];
-    getcwd(fullpath, BUFFER_SIZE);// the fullpath of data dir
+    char fullpath[RUNNER_BUFFER_SIZE];
+    getcwd(fullpath, RUNNER_BUFFER_SIZE);// the fullpath of data dir
 
     // open DIRs
     DIR *dp;
@@ -536,9 +536,9 @@ int main(int argc, char** argv){
     // read files and run
     for (; ( judge_flag == JudgeAC )&& (dirp = readdir(dp)) != NULL;){
 
-        char infile[BUFFER_SIZE];
-        char outfile[BUFFER_SIZE];
-        char userfile[BUFFER_SIZE];
+        char infile[RUNNER_BUFFER_SIZE];
+        char outfile[RUNNER_BUFFER_SIZE];
+        char userfile[RUNNER_BUFFER_SIZE];
 
         if (prepare_files(dirp->d_name, infile, outfile, userfile) == 0){
             continue;

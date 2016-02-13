@@ -5,7 +5,7 @@
 #define STD_T_LIM 2
 #define STD_F_LIM (STD_MB<<5)
 #define STD_M_LIM (STD_MB<<7)
-#define BUFFER_SIZE 512
+#define RUNNER_BUFFER_SIZE 512
 
 const int JudgePD  = 0; //Pending
 const int JudgeRJ  = 1; //Running & judging
