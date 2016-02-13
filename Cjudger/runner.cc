@@ -128,22 +128,17 @@ void init_syscalls_limits(int lang){
 }
 
 //比较用户输出和标准数据
-int compare(const char *infile, const char *outfile, const char *userfile)
+int compare(char *infile, char *outfile, char *userfile)
 {
     setName("compare sequences of tokens");
-    char * _argv[]={ NULL, infile, outfile, userfile };
+    // <input-file> <output-file> <answer-file>
+    char * _argv[]={ NULL, infile, userfile, outfile };
     registerTestlibCmd(4, _argv);
-
-    std::string strAnswer;
-
-    int n = 0;
 
     while (!ans.seekEof())
     {
-      n++;
       std::string j = ans.readWord();
       std::string p = ouf.readWord();
-      strAnswer = p;
       if (j != p)
         return JudgeWA;
     }
