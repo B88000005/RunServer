@@ -173,7 +173,7 @@ const char* latestFeatures[] = {
 #define EOFC (255)
 
 #ifndef OK_EXIT_CODE
-#   define OK_EXIT_CODE 0
+#   define OK_EXIT_CODE 3
 #endif
 
 #ifndef WA_EXIT_CODE

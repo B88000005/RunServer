@@ -130,20 +130,36 @@ void init_syscalls_limits(int lang){
 //比较用户输出和标准数据
 int compare(char *infile, char *outfile, char *userfile)
 {
-    setName("compare sequences of tokens");
-    // <input-file> <output-file> <answer-file>
-    char * _argv[]={ NULL, infile, userfile, outfile };
-    registerTestlibCmd(4, _argv);
+    int pid = fork();
+    if (pid == 0){
+        setName("compare sequences of tokens");
+        // <input-file> <output-file> <answer-file>
+        char * _argv[]={ NULL, infile, userfile, outfile };
+        registerTestlibCmd(4, _argv);
 
-    while (!ans.seekEof())
-    {
-      std::string j = ans.readWord();
-      std::string p = ouf.readWord();
-      if (j != p)
-        return JudgeWA;
+        std::string strAnswer;
+
+        int n = 0;
+
+        while (!ans.seekEof())
+        {
+          n++;
+          std::string j = ans.readWord();
+          std::string p = ouf.readWord();
+          strAnswer = p;
+          if (j != p)
+            quitf(_wa, "%d%s words differ - expected: '%s', found: '%s'", n, ending(n).c_str(), j.c_str(), p.c_str());
+        }
+
+        if (n == 1 && strAnswer.length() <= 128)
+            quitf(_ok, "%s", strAnswer.c_str());
+
+        quitf(_ok, "%d words", n);
+    }else{
+        int status=0;
+        waitpid(pid, &status, 0);
+        return status;
     }
-
-    return JudgeAC;
 }
 
 
