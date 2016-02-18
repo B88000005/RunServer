@@ -123,7 +123,7 @@ func JudgeForever() {
 	}
 }
 
-var VJs = []vjudger.Vjudger{&ZJGSUJudger{}, &vjudger.HDUJudger{}, &vjudger.PKUJudger{}}
+var VJs = []vjudger.Vjudger{&ZJGSUJudger{}, &vjudger.HDUJudger{}, &vjudger.PKUJudger{}, &vjudger.VJJudger{}}
 
 func Judge(info Info) {
 	user := &solution{}
